@@ -11,6 +11,15 @@
 #include <iostream>
 
 using namespace std;
+/*
+using std::cout;
+using std::ofstream;
+using std::ifstream;
+using std::fstream;
+using std::endl;
+using std::ios;
+using std::string;*/
+//using std::copy;
 
 const int MAX_VECTOR_SIZE = 100000000;
 const int MAX_MATRIX_SIZE = 10000;
@@ -63,12 +72,14 @@ template <class T>
 TVector<T>::TVector(int s, int si)
 {
 	//Новый код
-	if ( (s-si)<0 || s > MAX_VECTOR_SIZE)
+	if ((s - si) < 0 || s > MAX_VECTOR_SIZE)
+	{
 		throw s;
+	}
 	Size = s;
 	StartIndex = si;
 	pVector = new T[Size];
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < Size; i++)
 	{
 		pVector[i] = 0;
 	}
@@ -77,9 +88,18 @@ TVector<T>::TVector(int s, int si)
 template <class T> //конструктор копирования
 TVector<T>::TVector(const TVector<T> &v)
 {
+	if (v.Size<0 || v.Size>MAX_VECTOR_SIZE)
+	{
+		throw "Проблемы с размером";
+	}
 	Size = v.Size;
 	StartIndex = v.StartIndex;
-	std::copy(v.pVector[0], v.pVector[Size-1], pVector);
+	pVector = new T[Size];
+	//copy(pVector[0], pVector[Size-1], v.pVector);
+	for (int i = 0; i < Size; i++)
+	{
+		pVector[i] = v.pVector[i];
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class T>
@@ -91,6 +111,10 @@ TVector<T>::~TVector()
 template <class T> // доступ
 T& TVector<T>::operator[](int pos)
 {
+	if ( (pos - StartIndex) < 0 || (pos - StartIndex) > MAX_VECTOR_SIZE )
+	{
+		throw "Проблемы с размером";
+	}
 	return pVector[pos-StartIndex];
 } /*-------------------------------------------------------------------------*/
 
@@ -122,9 +146,21 @@ bool TVector<T>::operator!=(const TVector &v) const
 template <class T> // присваивание
 TVector<T>& TVector<T>::operator=(const TVector &v)
 {
-	Size = v.Size;
-	StartIndex = v.StartIndex;
-	std::copy(v.pVector[0], v.pVector[Size - 1], pVector);
+	if (pVector != v.pVector)
+	{
+		if (Size != v.Size)
+		{
+			delete[] pVector;
+			Size = v.Size;
+			StartIndex = v.StartIndex;
+			pVector = new T[Size];
+		}
+	   // copy(pVector[0], pVector[Size - 1], v.pVector);
+		for (int i = 0; i < Size; i++)
+		{
+			pVector[i] = v.pVector[i];
+		}
+	}
 	return *this;
 } /*-------------------------------------------------------------------------*/
 
@@ -134,7 +170,7 @@ TVector<T> TVector<T>::operator+(const T &val)
 	TVector<T> result(Size);
 	for (int i = 0; i < Size; i++)
 	{
-		result[i] = this[i] + val;
+		result[i] = pVector[i] + val;
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -145,7 +181,7 @@ TVector<T> TVector<T>::operator-(const T &val)
 	TVector<T> result(Size);
 	for (int i = 0; i < Size; i++)
 	{
-		result[i] = this[i] - val;
+		result[i] = pVector[i] - val;
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -156,7 +192,7 @@ TVector<T> TVector<T>::operator*(const T &val)
 	TVector<T> result(Size);
 	for (int i = 0; i < Size; i++)
 	{
-		result[i] = this[i] * val;
+		result[i] = pVector[i] * val;
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -170,8 +206,9 @@ TVector<T> TVector<T>::operator+(const TVector<T> &v)
 	}
 
 	TVector<T> result(Size);
-	for (int i = 0; i < Size; i++) {
-		result[i] = this[i] + v[i];
+	for (int i = 0; i < Size; i++) 
+	{
+		result[i] = pVector[i] + v.pVector[i];
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -185,8 +222,9 @@ TVector<T> TVector<T>::operator-(const TVector<T> &v)
 	}
 
 	TVector<T> result(Size);
-	for (int i = 0; i < Size; i++) {
-		result[i] = this[i] - v[i];
+	for (int i = 0; i < Size; i++) 
+	{
+		result[i] = pVector[i] - v[i];
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -200,8 +238,9 @@ T TVector<T>::operator*(const TVector<T> &v)
 	}
 
 	T result = 0;
-	for (int i = 0; i < Size; i++) {
-		result += this[i]*v[i];
+	for (int i = 0; i < Size; i++) 
+	{
+		result += pVector[i]*v[i];
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
