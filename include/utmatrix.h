@@ -74,7 +74,7 @@ TVector<T>::TVector(int s, int si)
 	//Новый код
 	if ((s - si) < 0 || s > MAX_VECTOR_SIZE)
 	{
-		throw s;
+		throw "Проблемы с размером";
 	}
 	Size = s;
 	StartIndex = si;
@@ -278,6 +278,12 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
+	Size = s;
+	for (int i = 0; i < Size; i++)
+	{
+		TVector<T> tmp(Size - i, i);
+		pVector[i] = tmp;
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // конструктор копирования
@@ -291,31 +297,64 @@ TMatrix<T>::TMatrix(const TVector<TVector<T> > &mt):
 template <class T> // сравнение
 bool TMatrix<T>::operator==(const TMatrix<T> &mt) const
 {
+	if (Size != mt.Size)
+	{
+		return false;
+	}
+	for (int i = 0; i < Size; i++)
+	{
+		if (pVector[i] != mt.pVector[i])
+		{
+			return false;
+		}
+	}
 	return true;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сравнение
 bool TMatrix<T>::operator!=(const TMatrix<T> &mt) const
 {
-	return true;
+	return !(*this == mt);
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // присваивание
 TMatrix<T>& TMatrix<T>::operator=(const TMatrix<T> &mt)
 {
+	if (this == &mt)
+	{
+		return *this;
+	}
+	if (Size != mt.Size)
+	{
+		delete[]pVector;
+		Size = mt.Size;
+		pVector = new TVector<T>[Size];
+	}
+	for (int i = 0; i < Size; i++)
+	{
+		pVector[i] = mt.pVector[i];
+	}
 	return *this;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сложение
 TMatrix<T> TMatrix<T>::operator+(const TMatrix<T> &mt)
 {
-	return *this;
+	if (Size != mt.Size)
+	{
+		throw "Разные размеры";
+	}	
+	return TVector <TVector<T> >::operator+(mt);
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // вычитание
 TMatrix<T> TMatrix<T>::operator-(const TMatrix<T> &mt)
 {
-	return *this;
+	if (Size != mt.Size)
+	{
+		throw "Разные размеры";
+	}
+	return TVector <TVector<T> >::operator-(mt);
 
 } /*-------------------------------------------------------------------------*/
 
