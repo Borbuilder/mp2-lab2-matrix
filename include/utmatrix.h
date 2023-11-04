@@ -111,7 +111,7 @@ TVector<T>::~TVector()
 template <class T> // доступ
 T& TVector<T>::operator[](int pos)
 {
-	if ( (pos - StartIndex) < 0 || (pos - StartIndex) > MAX_VECTOR_SIZE )
+	if ( (pos - StartIndex) < 0 || (pos - StartIndex) > Size )
 	{
 		throw "Проблемы с размером";
 	}
