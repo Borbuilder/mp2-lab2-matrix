@@ -1,3 +1,4 @@
+//#define _CRT_SECURE_NO_WARNINGS
 #include "utmatrix.h"
 
 #include <gtest.h>
@@ -202,17 +203,30 @@ TEST(TVector, can_add_vectors_with_equal_size)
 
 TEST(TVector, cant_add_vectors_with_not_equal_size)
 {
-  ADD_FAILURE();
+	TVector<int> v(3);
+	TVector<int> v1(5);
+	ASSERT_ANY_THROW(v + v1);
 }
 
 TEST(TVector, can_subtract_vectors_with_equal_size)
 {
-  ADD_FAILURE();
+	TVector<int> v(3);
+	TVector<int> v1(3);
+	TVector<int> v2(3);
+	for (int i = 0; i < v.GetSize(); i++)
+	{
+		v[i] = 3;
+		v1[i] = 2;
+	}
+	v2 = v - v1;
+	EXPECT_EQ(v2, v - v1);
 }
 
 TEST(TVector, cant_subtract_vectors_with_not_equal_size)
 {
-  ADD_FAILURE();
+	TVector<int> v(3);
+	TVector<int> v1(5);
+	ASSERT_ANY_THROW(v - v1);
 }
 
 TEST(TVector, can_multiply_vectors_with_equal_size)
