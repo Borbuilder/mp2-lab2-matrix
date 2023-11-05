@@ -47,70 +47,137 @@ TEST(TMatrix, can_get_size)
 TEST(TMatrix, can_set_and_get_element)
 {
 	TMatrix<int> m(3);
+	m[1][1] = 1;
+	m[1][2] = 2;
+	int tmp = m[1][2];
+	EXPECT_EQ(m[1][1], 1);
+	EXPECT_EQ(tmp, 2);
 }
 
 TEST(TMatrix, throws_when_set_element_with_negative_index)
 {
-  ADD_FAILURE();
+	TMatrix<int> m(3);
+	ASSERT_ANY_THROW(m[-1][1] = 1);
+	ASSERT_ANY_THROW(m[1][-1] = 1);
+	ASSERT_ANY_THROW(m[-1][-1] = 1);
 }
 
 TEST(TMatrix, throws_when_set_element_with_too_large_index)
 {
-  ADD_FAILURE();
+	TMatrix<int> m(3);
+	ASSERT_ANY_THROW(m[100][1] = 1);
+	ASSERT_ANY_THROW(m[1][100] = 1);
+	ASSERT_ANY_THROW(m[100][100] = 1);
 }
 
 TEST(TMatrix, can_assign_matrix_to_itself)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	ASSERT_NO_THROW(mt = mt);
 }
 
 TEST(TMatrix, can_assign_matrices_of_equal_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(3);
+	ASSERT_NO_THROW(mt = mt1);
+	mt = mt1;
+	EXPECT_EQ(mt, mt1);
 }
 
-TEST(TMatrix, assign_operator_change_matrix_size)
+TEST(TMatrix, assign_operator_changes_matrix_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(5);
+	mt = mt1;
+	EXPECT_EQ(mt.GetSize(), mt1.GetSize());
 }
 
 TEST(TMatrix, can_assign_matrices_of_different_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(5);
+	ASSERT_NO_THROW(mt = mt1);
+	mt = mt1;
+	EXPECT_EQ(mt, mt1);
 }
 
 TEST(TMatrix, compare_equal_matrices_return_true)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(3);
+	for (int i = 0; i < mt.GetSize(); i++)
+	{
+		for (int j = i; j < mt.GetSize(); j++)
+		{
+			mt[i][j] = 1;
+			mt1[i][j] = 1;
+		}
+	}
+	EXPECT_EQ(1, mt == mt1);
 }
 
 TEST(TMatrix, compare_matrix_with_itself_return_true)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	EXPECT_EQ(1, mt == mt);
 }
 
 TEST(TMatrix, matrices_with_different_size_are_not_equal)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(5);
+	EXPECT_EQ(0, mt == mt1);
 }
 
 TEST(TMatrix, can_add_matrices_with_equal_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(3);
+	TMatrix<int> mt2(3);
+	for (int i = 0; i < mt.GetSize(); i++)
+	{
+		for (int j = i; j < mt.GetSize(); j++)
+		{
+			mt[i][j] = 1;
+			mt1[i][j] = 1;
+		}
+	}
+	ASSERT_NO_THROW(mt + mt1);
+	mt2 = mt + mt1;
+	EXPECT_EQ(mt2, mt + mt1);
+
 }
 
 TEST(TMatrix, cant_add_matrices_with_not_equal_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(5);
+	ASSERT_ANY_THROW(mt + mt1);
 }
 
 TEST(TMatrix, can_subtract_matrices_with_equal_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(3);
+	TMatrix<int> mt2(3);
+	for (int i = 0; i < mt.GetSize(); i++)
+	{
+		for (int j = i; j < mt.GetSize(); j++)
+		{
+			mt[i][j] = 2;
+			mt1[i][j] = 1;
+		}
+	}
+	ASSERT_NO_THROW(mt - mt1);
+	mt2 = mt - mt1;
+	EXPECT_EQ(mt2, mt - mt1);
 }
 
 TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> mt(3);
+	TMatrix<int> mt1(5);
+	ASSERT_ANY_THROW(mt - mt1);
 }
 

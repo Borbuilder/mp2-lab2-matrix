@@ -92,6 +92,7 @@ TEST(TVector, can_assign_vectors_of_equal_size)
 {
 	TVector<int> v(3);
 	TVector<int> v1(3);
+	ASSERT_NO_THROW(v = v1);
 	v = v1;
 	EXPECT_EQ(v, v1);
 }

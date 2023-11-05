@@ -72,7 +72,7 @@ template <class T>
 TVector<T>::TVector(int s, int si)
 {
 	//Новый код
-	if ((s - si) < 0 || s > MAX_VECTOR_SIZE)
+	if ((s - si) < 0 || (s > MAX_VECTOR_SIZE) || (si < 0))
 	{
 		throw "Проблемы с размером";
 	}
@@ -140,7 +140,7 @@ bool TVector<T>::operator==(const TVector &v) const
 template <class T> // сравнение
 bool TVector<T>::operator!=(const TVector &v) const
 {
-	return !(this==v);
+	return !(*this==v);
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // присваивание
@@ -224,7 +224,7 @@ TVector<T> TVector<T>::operator-(const TVector<T> &v)
 	TVector<T> result(Size);
 	for (int i = 0; i < Size; i++) 
 	{
-		result[i] = pVector[i] - v[i];
+		result[i] = pVector[i] - v.pVector[i];
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -240,7 +240,7 @@ T TVector<T>::operator*(const TVector<T> &v)
 	T result = 0;
 	for (int i = 0; i < Size; i++) 
 	{
-		result += pVector[i]*v[i];
+		result += pVector[i]*v.pVector[i];
 	}
 	return result;
 } /*-------------------------------------------------------------------------*/
@@ -278,6 +278,11 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
+	if (s < 0 || (s > MAX_MATRIX_SIZE))
+	{
+		throw "Неправильный размер";
+	}
+
 	Size = s;
 	for (int i = 0; i < Size; i++)
 	{
