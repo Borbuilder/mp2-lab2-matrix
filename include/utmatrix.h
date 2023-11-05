@@ -259,6 +259,7 @@ public:
   TMatrix& operator= (const TMatrix &mt);        // присваивание
   TMatrix  operator+ (const TMatrix &mt);        // сложение
   TMatrix  operator- (const TMatrix &mt);        // вычитание
+  //TMatrix  operator* (const TMatrix& mt);        // умножение
 
   // ввод / вывод
   friend istream& operator>>(istream &in, TMatrix &mt)
@@ -278,10 +279,10 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
-	//if (s > MAX_MATRIX_SIZE)
-	//{
-		//throw exception("Неправильный размер");
-	//}
+	if (s > MAX_MATRIX_SIZE)
+	{
+		throw "Неправильный размер";
+	}
 
 	Size = s;
 	for (int i = 0; i < Size; i++)
@@ -362,6 +363,28 @@ TMatrix<T> TMatrix<T>::operator-(const TMatrix<T> &mt)
 	return TVector <TVector<T> >::operator-(mt);
 
 } /*-------------------------------------------------------------------------*/
+
+//template <class T> // умножение матриц
+/*TMatrix<T> TMatrix<T>::operator*(const TMatrix<T>& mt)
+{
+	if (Size != mt.Size)
+	{
+		throw "Разные размеры";
+	}
+
+	TMatrix<T> tmp(Size);
+	for (int i = 0; i < Size; i++)
+	{
+		for (int j = mt.GetStartIndex(); j < Size-mt.GetStartIndex(); j++)
+		{
+			for (int k = 0; k < mt.GetStartIndex() + 1; k++)
+			{
+				tmp.pVector[i][j] += pVector[i][k] * mt.pVector[k][j];
+			}
+		}
+	}
+	return tmp;
+}*/
 
 // TVector О3 Л2 П4 С6
 // TMatrix О2 Л2 П3 С3
