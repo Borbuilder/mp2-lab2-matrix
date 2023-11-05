@@ -72,7 +72,7 @@ template <class T>
 TVector<T>::TVector(int s, int si)
 {
 	//Новый код
-	if ((s - si) < 0 || (s > MAX_VECTOR_SIZE) || (si < 0))
+	if ( s < 0 || (s > MAX_VECTOR_SIZE) || (si < 0))
 	{
 		throw "Проблемы с размером";
 	}
@@ -278,10 +278,10 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
-	if (s < 0 || (s > MAX_MATRIX_SIZE))
-	{
-		throw "Неправильный размер";
-	}
+	//if (s > MAX_MATRIX_SIZE)
+	//{
+		//throw exception("Неправильный размер");
+	//}
 
 	Size = s;
 	for (int i = 0; i < Size; i++)

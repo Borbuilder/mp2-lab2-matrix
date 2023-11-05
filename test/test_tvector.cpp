@@ -45,7 +45,7 @@ TEST(TVector, copied_vector_has_its_own_memory)
 {
 	TVector<int> v(3);
 	TVector<int> v1(v);
-	EXPECT_NE(0, &v == &v1);
+	EXPECT_EQ(0, &v == &v1);
 }
 
 TEST(TVector, can_get_size)
@@ -184,8 +184,7 @@ TEST(TVector, can_multiply_scalar_by_vector)
 		v[i] = 2;
 		v1[i] = 4;
 	}
-		v * 2;
-	EXPECT_EQ(v, v1);
+	EXPECT_EQ(v*2, v1);
 }
 
 TEST(TVector, can_add_vectors_with_equal_size)

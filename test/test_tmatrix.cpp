@@ -4,7 +4,7 @@
 
 TEST(TMatrix, can_create_matrix_with_positive_length)
 {
-  ASSERT_NO_THROW(TMatrix<int> m(5));
+  ASSERT_NO_THROW(TMatrix<int> mt(5));
 }
 
 TEST(TMatrix, cant_create_too_large_matrix)
