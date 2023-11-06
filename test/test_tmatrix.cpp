@@ -135,17 +135,19 @@ TEST(TMatrix, can_add_matrices_with_equal_size)
 	TMatrix<int> mt(3);
 	TMatrix<int> mt1(3);
 	TMatrix<int> mt2(3);
+	TMatrix<int> mt_res(3);
 	for (int i = 0; i < mt.GetSize(); i++)
 	{
 		for (int j = i; j < mt.GetSize(); j++)
 		{
 			mt[i][j] = 1;
 			mt1[i][j] = 1;
+			mt_res[i][j] = 2;
 		}
 	}
 	ASSERT_NO_THROW(mt + mt1);
 	mt2 = mt + mt1;
-	EXPECT_EQ(mt2, mt + mt1);
+	EXPECT_EQ(mt2, mt_res);
 
 }
 
@@ -161,17 +163,19 @@ TEST(TMatrix, can_subtract_matrices_with_equal_size)
 	TMatrix<int> mt(3);
 	TMatrix<int> mt1(3);
 	TMatrix<int> mt2(3);
+	TMatrix<int> mt_res(3);
 	for (int i = 0; i < mt.GetSize(); i++)
 	{
 		for (int j = i; j < mt.GetSize(); j++)
 		{
 			mt[i][j] = 2;
 			mt1[i][j] = 1;
+			mt_res[i][j] = 1;
 		}
 	}
 	ASSERT_NO_THROW(mt - mt1);
 	mt2 = mt - mt1;
-	EXPECT_EQ(mt2, mt - mt1);
+	EXPECT_EQ(mt2, mt_res);
 }
 
 TEST(TMatrix, cant_subtract_matrixes_with_not_equal_size)

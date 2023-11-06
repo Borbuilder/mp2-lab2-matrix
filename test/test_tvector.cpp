@@ -152,10 +152,12 @@ TEST(TVector, can_add_scalar_to_vector)
 		v[i] = 1;
 		v1[i] = 2;
 	}
-	for (int i = 0; i < v.GetSize(); i++)
+	ASSERT_NO_THROW(v + 1);
+	/*for (int i = 0; i < v.GetSize(); i++)
 	{
 		v[i] += 1;
-	}
+	}*/
+	v = v + 1;
 	EXPECT_EQ(v, v1);
 }
 
@@ -168,10 +170,12 @@ TEST(TVector, can_subtract_scalar_from_vector)
 		v[i] = 2;
 		v1[i] = 1;
 	}
-	for (int i = 0; i < v.GetSize(); i++)
+	ASSERT_NO_THROW(v-1);
+	/*for (int i = 0; i < v.GetSize(); i++)
 	{
 		v[i] -= 1;
-	}
+	}*/
+	v = v - 1;
 	EXPECT_EQ(v, v1);
 }
 
@@ -184,7 +188,9 @@ TEST(TVector, can_multiply_scalar_by_vector)
 		v[i] = 2;
 		v1[i] = 4;
 	}
-	EXPECT_EQ(v*2, v1);
+	ASSERT_NO_THROW(v*2);
+	v = v * 2;
+	EXPECT_EQ(v, v1);
 }
 
 TEST(TVector, can_add_vectors_with_equal_size)
@@ -192,13 +198,16 @@ TEST(TVector, can_add_vectors_with_equal_size)
 	TVector<int> v(3);
 	TVector<int> v1(3);
 	TVector<int> v2(3);
+	TVector<int> v_res(3);
 	for (int i = 0; i < v.GetSize(); i++)
 	{
 		v[i] = 2;
 		v1[i] = 3;
+		v_res[i] = 5;
 	}
+	ASSERT_NO_THROW(v + v1);
 	v2 = v + v1;
-	EXPECT_EQ(v2, v + v1);
+	EXPECT_EQ(v2, v_res);
 }
 
 TEST(TVector, cant_add_vectors_with_not_equal_size)
@@ -213,13 +222,16 @@ TEST(TVector, can_subtract_vectors_with_equal_size)
 	TVector<int> v(3);
 	TVector<int> v1(3);
 	TVector<int> v2(3);
+	TVector<int> v_res(3);
 	for (int i = 0; i < v.GetSize(); i++)
 	{
 		v[i] = 3;
 		v1[i] = 2;
+		v_res[i] = 1;
 	}
+	ASSERT_NO_THROW(v - v1);
 	v2 = v - v1;
-	EXPECT_EQ(v2, v - v1);
+	EXPECT_EQ(v2, v_res);
 }
 
 TEST(TVector, cant_subtract_vectors_with_not_equal_size)
@@ -233,14 +245,17 @@ TEST(TVector, can_multiply_vectors_with_equal_size)
 {
 	TVector<int> v(3);
 	TVector<int> v1(3);
-	TVector<int> v2(3);
+	int const res = 18;
+	int tmp_res=0;
 	for (int i = 0; i < v.GetSize(); i++)
 	{
 		v[i] = 3;
 		v1[i] = 2;
+		
 	}
-	v2 = v * v1;
-	EXPECT_EQ(v2, v * v1);
+	ASSERT_NO_THROW(v * v1);
+	tmp_res = v * v1;
+	EXPECT_EQ(tmp_res, res);
 }
 
 TEST(TVector, cant_multiply_vectors_with_not_equal_size)
